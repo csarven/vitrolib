@@ -272,6 +272,8 @@ schema:Event
 
  
 dcterms:hasFormat
+    vitro:displayRankAnnot
+        "20"^^xsd:int ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
 
@@ -375,6 +377,8 @@ ld4l:dissertationNote
         <http://ld4l.org/ontology#vitroPropertyGroupnotes> .
 
 ld4l:equivalentTo
+    vitro:displayRankAnnot
+        "20"^^xsd:int ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
 
@@ -455,6 +459,8 @@ ld4l:hasLast
  #        <http://ld4l.org/ontology#vitroPropertyGroupmusicalProperties> .
                                                                            
 ld4l:hasOriginalVersion
+    vitro:displayRankAnnot
+        "20"^^xsd:int ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
 
@@ -475,6 +481,8 @@ ld4l:hasProvision
         <http://ld4l.org/ontology#vitroPropertyGroupprovisioning> .
 
 ld4l:hasReproduction
+    vitro:displayRankAnnot
+        "20"^^xsd:int ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
 
@@ -569,6 +577,8 @@ ld4l:recordedIn
         <http://ld4l.org/ontology#vitroPropertyGroupworksAboutEvent> .
         
 ld4l:reproduces
+    vitro:displayRankAnnot
+        "20"^^xsd:int ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
 
