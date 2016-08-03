@@ -34,7 +34,7 @@ local:agentHasContributionConfig a :ObjectPropertyDisplayConfig ;
     :displayName "contributed to"^^xsd:string ;
     :propertyGroup <http://ld4l.org/ontology#vitroPropertyGroupagentContributions> ;
     :listViewConfigFile "listViewConfig-agentHasContribution.xml"^^xsd:string ;
-    # vitro:customEntryFormAnnot "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.AgentHasContribution"^^xsd:string ;
+    # vitro:customEntryFormAnnot "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.AgentHasContributionGenerator"^^xsd:string ;
     vitro:displayRankAnnot "0"^^xsd:int ; 
     vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
     vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
@@ -90,7 +90,7 @@ local:sameAsInstance a :ConfigContext ;
                 
 local:sameAsInstanceConfig a :ObjectPropertyDisplayConfig ;
     rdfs:label "sameAsInstance"@en-US ;
-    :displayName "same as instance"^^xsd:string ;
+    :displayName "same as"^^xsd:string ;
     :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> ;
     :listViewConfigFile "listViewConfig-sameAsInstance.xml"^^xsd:string ;
     vitro:displayRankAnnot "0"^^xsd:int ;
