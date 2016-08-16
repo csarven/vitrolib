@@ -276,6 +276,16 @@ dcterms:hasFormat
         "20"^^xsd:int ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
+        
+# Displayed as faux properties, so hide the display of the base property.
+dcterms:hasPart
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot
+        <http://vitro.mannlib.cornell.edu/ns/vitro/role#nobody> .
+        
+# Displayed as faux properties, so hide the display of the base property.
+dcterms:isPartOf
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot
+       <http://vitro.mannlib.cornell.edu/ns/vitro/role#nobody> .
 
 # dcterms:language
 #     vitro:inPropertyGroupAnnot
@@ -530,6 +540,14 @@ ld4l:isFindingAidFor
 ld4l:isLastOf
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> .
+ 
+ld4l:isPreferredTitleOf
+    vitro:inPropertyGroupAnnot
+        <http://ld4l.org/ontology#vitroPropertyGrouptitleOfResource> .
+               
+ld4l:isTitleOf
+    vitro:inPropertyGroupAnnot
+        <http://ld4l.org/ontology#vitroPropertyGrouptitleOfResource> .
                 
 ld4l:isUnionOf
     vitro:inPropertyGroupAnnot
