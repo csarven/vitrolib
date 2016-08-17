@@ -260,17 +260,6 @@ schema:Event
 ##### PROPERTY CONFIGURATION #####
 
 
-# TODO Define property class groups in 
-# /rdf/applicationMetadata/firsttime/propertygroups.rdf and group the properties 
-# here. 
-
-
-#      vitro:hiddenFromDisplayBelowRoleLevelAnnot
-#              <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
-#      vitro:inPropertyGroupAnnot
-#              <http://vivoweb.org/ontology#vitroPropertyGroupidentifiers> ;
-
- 
 dcterms:hasFormat
     vitro:displayRankAnnot
         "20"^^xsd:int ;
@@ -396,9 +385,10 @@ ld4l:extent
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupphysicalCharacteristics> .
 
+# Displayed as faux properties, so hide the display of the base property.
 ld4l:follows
-    vitro:inPropertyGroupAnnot
-        <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> .
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot
+        <http://vitro.mannlib.cornell.edu/ns/vitro/role#nobody> .
 
 ld4l:followsInNarrative
     vitro:inPropertyGroupAnnot
@@ -490,16 +480,11 @@ ld4l:hasProvision
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupprovisioning> .
 
-
+# Displayed as faux properties, so hide the display of the base property.
+# Should apply only to Instances, but sample data uses between Works.
 ld4l:hasReproduction
-    vitro:displayRankAnnot
-        "20"^^xsd:int ;
-    vitro:inPropertyGroupAnnot
-        # This is defined as an Instance-Instance relationship, but in fact in  
-        # the sample data it only occurs between Works. Ontology needs to
-        # revisit.
-        # <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
-        <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> .
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot
+        <http://vitro.mannlib.cornell.edu/ns/vitro/role#nobody> .
 
 ld4l:hasTitle
     vitro:inPropertyGroupAnnot
@@ -577,6 +562,12 @@ ld4l:performanceOf
 ld4l:performedAt
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouptimeAndPlace> .
+        
+# Displayed as faux properties, so hide the display of the base property.
+ld4l:precedes
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot
+        <http://vitro.mannlib.cornell.edu/ns/vitro/role#nobody> .
+
 
 ld4l:precedesInNarrative
     vitro:inPropertyGroupAnnot
@@ -598,16 +589,12 @@ ld4l:recordedAt
 ld4l:recordedIn
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupworksAboutEvent> .
-     
+
+# Displayed as faux properties, so hide the display of the base property.
+# Should apply only to Instances, but sample data uses between Works.
 ld4l:reproduces
-    vitro:displayRankAnnot
-        "20"^^xsd:int ;
-    vitro:inPropertyGroupAnnot
-        # This is defined as an Instance-Instance relationship, but in fact in  
-        # the sample data it only occurs between Works. Ontology needs to 
-        # revisit.
-        # <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
-        <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> .
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot
+        <http://vitro.mannlib.cornell.edu/ns/vitro/role#nobody> .
 
 ld4l:responsibilityNote
     vitro:inPropertyGroupAnnot
