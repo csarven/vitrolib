@@ -706,9 +706,13 @@
 
     <owl:ObjectProperty rdf:about="http://bib.ld4l.org/ontology/hasReproduction">
         <rdfs:label xml:lang="en-us">has reproduction</rdfs:label>
-        <rdfs:comment xml:lang="en-us">This Instance has a reproduction that embodies the same Work.</rdfs:comment>
+        <rdfs:comment xml:lang="en-us">This resource has a reproduction that embodies the same Work.</rdfs:comment>
+        <!-- There are cases in the data where hasReproduction relates two Works. -->
+        <!--
+        <rdfs:comment xml:lang="en-us">This Instance has a reproduction that embodies the same Work.</rdfs:comment>        
         <rdfs:range rdf:resource="http://bib.ld4l.org/ontology/Instance"/>
         <rdfs:domain rdf:resource="http://bib.ld4l.org/ontology/Instance"/>
+        -->
         <owl:inverseOf rdf:resource="http://bib.ld4l.org/ontology/reproduces"/>
     </owl:ObjectProperty>
     
@@ -1260,9 +1264,13 @@
 
     <owl:ObjectProperty rdf:about="http://bib.ld4l.org/ontology/reproduces">
         <rdfs:label xml:lang="en-us">reproduces</rdfs:label>
-        <rdfs:comment xml:lang="en-us">This Instance reproduces another Instance embodying the same Wsork.</rdfs:comment>
+        <rdfs:comment xml:lang="en-us">This resource reproduces another resource embodying the same Work.</rdfs:comment>
+        <!-- There are cases in the data where the predicate relates two Works. -->
+        <!--
+        <rdfs:comment xml:lang="en-us">This Instance reproduces another Instance embodying the same Work.</rdfs:comment>
         <rdfs:domain rdf:resource="http://bib.ld4l.org/ontology/Instance"/>
         <rdfs:range rdf:resource="http://bib.ld4l.org/ontology/Instance"/>
+        -->
         <owl:inverseOf rdf:resource="http://bib.ld4l.org/ontology/hasReproduction"/>
     </owl:ObjectProperty>
     

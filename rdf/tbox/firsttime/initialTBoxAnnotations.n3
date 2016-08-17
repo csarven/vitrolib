@@ -490,11 +490,16 @@ ld4l:hasProvision
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupprovisioning> .
 
+
 ld4l:hasReproduction
     vitro:displayRankAnnot
         "20"^^xsd:int ;
     vitro:inPropertyGroupAnnot
-        <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
+        # This is defined as an Instance-Instance relationship, but in fact in  
+        # the sample data it only occurs between Works. Ontology needs to
+        # revisit.
+        # <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
+        <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> .
 
 ld4l:hasTitle
     vitro:inPropertyGroupAnnot
@@ -593,12 +598,16 @@ ld4l:recordedAt
 ld4l:recordedIn
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupworksAboutEvent> .
-        
+     
 ld4l:reproduces
     vitro:displayRankAnnot
         "20"^^xsd:int ;
     vitro:inPropertyGroupAnnot
-        <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
+        # This is defined as an Instance-Instance relationship, but in fact in  
+        # the sample data it only occurs between Works. Ontology needs to 
+        # revisit.
+        # <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> .
+        <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> .
 
 ld4l:responsibilityNote
     vitro:inPropertyGroupAnnot
