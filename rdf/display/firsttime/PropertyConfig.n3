@@ -12,6 +12,7 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ld4l: <http://bib.ld4l.org/ontology/> .
+@prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema: <http://schema.org/> .
 
@@ -22,7 +23,6 @@
 
 
 ################################################################################
-
 
 local:agentHasContribution a :ConfigContext ;
     :hasConfiguration local:agentHasContributionConfig ;
@@ -40,10 +40,7 @@ local:agentHasContributionConfig a :ObjectPropertyDisplayConfig ;
     vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
     vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
 
-    
-
 ################################################################################
-
 
 local:agentHasProvision a :ConfigContext ;
     :hasConfiguration local:agentHasProvisionConfig ;
@@ -59,9 +56,7 @@ local:agentHasProvisionConfig a :ObjectPropertyDisplayConfig ;
     vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
     vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public . 
 
-
 ################################################################################
-    
     
 local:eventLocation a :ConfigContext ;
     :hasConfiguration local:eventLocationConfig ;
@@ -77,11 +72,9 @@ local:eventLocationConfig a :ObjectPropertyDisplayConfig ;
     vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
     vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
     vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .              
-     
-     
+        
 ################################################################################
-
-    
+  
 local:sameAsInstance a :ConfigContext ;
     :hasConfiguration local:sameAsInstanceConfig ;
     :configContextFor owl:sameAs ;
@@ -97,7 +90,216 @@ local:sameAsInstanceConfig a :ObjectPropertyDisplayConfig ;
     vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
     vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
     vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .  
-   
-   
+    
 ################################################################################
- 
+   
+local:workHasPart a :ConfigContext ;
+    :hasConfiguration local:workHasPartConfig ;
+    :configContextFor dcterms:hasPart ;
+    :qualifiedByDomain ld4l:Work ;
+    :qualifiedBy ld4l:Work .
+                
+local:workHasPartConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "workHasPart"@en-US ;
+    :displayName "has part"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> ;
+    vitro:displayRankAnnot "10"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
+local:isPartOfWork a :ConfigContext ;
+    :hasConfiguration local:isPartOfWorkConfig ;
+    :configContextFor dcterms:isPartOf ;
+    :qualifiedByDomain ld4l:Work ;
+    :qualifiedBy ld4l:Work .
+                
+local:isPartOfWorkConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "isPartOfWork"@en-US ;
+    :displayName "is part of"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> ;
+    vitro:displayRankAnnot "10"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+
+################################################################################
+
+local:titleHasPart a :ConfigContext ;
+    :hasConfiguration local:titleHasPartConfig ;
+    :configContextFor dcterms:hasPart ;
+    :qualifiedByDomain madsrdf:Title ;
+    :qualifiedBy madsrdf:TitleElement .
+               
+local:titleHasPartConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "titleHasPart"@en-US ;
+    :displayName "has title part"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouptitleParts> ;
+    vitro:displayRankAnnot "10"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
+local:isPartOfTitle a :ConfigContext ;
+    :hasConfiguration local:isPartOfTitleConfig ;
+    :configContextFor dcterms:isPartOf ;            
+    :qualifiedByDomain madsrdf:TitleElement ;
+    :qualifiedBy madsrdf:Title .
+               
+local:isPartOfTitleConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "isPartOfTitle"@en-US ;
+    :displayName "is part of title"^^xsd:string ;
+    vitro:displayRankAnnot "10"^^xsd:int ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGroupfullTitle> ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+  
+local:followsWork a :ConfigContext ;
+    :hasConfiguration local:followsWorkConfig ;
+    :configContextFor ld4l:follows ;
+    :qualifiedByDomain ld4l:Work ;
+    :qualifiedBy ld4l:Work .
+                
+local:followsWorkConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "followsWork"@en-US ;
+    :displayName "follows work"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> ;
+    vitro:displayRankAnnot "10"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
+local:precedesWork a :ConfigContext ;
+    :hasConfiguration local:precedesWorkConfig ;
+    :configContextFor ld4l:precedes ;
+    :qualifiedByDomain ld4l:Work ;
+    :qualifiedBy ld4l:Work .
+                
+local:precedesWorkConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "precedesWork"@en-US ;
+    :displayName "precedes work"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> ;
+    vitro:displayRankAnnot "10"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+
+################################################################################
+
+local:followsTitleElement a :ConfigContext ;
+    :hasConfiguration local:followsTitleElementConfig ;
+    :configContextFor ld4l:follows ;
+    :qualifiedByDomain madsrdf:TitleElement ;
+    :qualifiedBy madsrdf:TitleElement .
+                
+local:followsTitleElementConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "followsTitleElement"@en-US ;
+    :displayName "follows title part"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouptitleParts> ;
+    vitro:displayRankAnnot "20"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
+local:precedesTitleElement a :ConfigContext ;
+    :hasConfiguration local:precedesTitleElementConfig ;
+    :configContextFor ld4l:precedes ;
+    :qualifiedByDomain madsrdf:TitleElement ;
+    :qualifiedBy madsrdf:TitleElement .
+                
+local:precedesTitleElementConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "precedesTitleElement"@en-US ;
+    :displayName "precedes title part"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouptitleParts> ;
+    vitro:displayRankAnnot "20"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
+# The ontology defines this as an Instance-Instance relationship, but in the 
+# data it's used to relate Works. 
+
+local:reproducesWork a :ConfigContext ;
+    :hasConfiguration local:reproducesWorkConfig ;
+    :configContextFor ld4l:reproduces ;
+    :qualifiedByDomain ld4l:Work;
+    :qualifiedBy ld4l:Work .
+                
+local:reproducesWorkConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "reproducesWork"@en-US ;
+    :displayName "reproduces work"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> ;
+    vitro:displayRankAnnot "20"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
+# The ontology defines this as an Instance-Instance relationship, but in the 
+# data it's used to relate Works. 
+
+local:hasWorkReproduction a :ConfigContext ;
+    :hasConfiguration local:hasWorkReproductionConfig ;
+    :configContextFor ld4l:hasReproduction ;
+    :qualifiedByDomain ld4l:Work;
+    :qualifiedBy ld4l:Work .
+                
+local:hasWorkReproductionConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "hasWorkReproduction"@en-US ;
+    :displayName "has work reproduction"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> ;
+    vitro:displayRankAnnot "20"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
+local:reproducesInstance a :ConfigContext ;
+    :hasConfiguration local:reproducesInstanceConfig ;
+    :configContextFor ld4l:reproduces ;
+    :qualifiedByDomain ld4l:Instance;
+    :qualifiedBy ld4l:Instance .
+                
+local:reproducesInstanceConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "reproducesInstance"@en-US ;
+    :displayName "reproduces instance"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> ;
+    vitro:displayRankAnnot "20"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
+local:hasInstanceReproduction a :ConfigContext ;
+    :hasConfiguration local:hasInstanceReproductionConfig ;
+    :configContextFor ld4l:hasReproduction ;
+    :qualifiedByDomain ld4l:Instance;
+    :qualifiedBy ld4l:Instance .
+                
+local:hasInstanceReproductionConfig a :ObjectPropertyDisplayConfig ;
+    rdfs:label "hasInstanceReproduction"@en-US ;
+    :displayName "has instance reproduction"^^xsd:string ;
+    :propertyGroup <http://ld4l.org/ontology#vitroPropertyGrouprelatedInstances> ;
+    vitro:displayRankAnnot "20"^^xsd:int ;
+    vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
+    vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
+    vitro:prohibitedFromUpdateBelowRoleLevelAnnot role:public .
+    
+################################################################################
+
