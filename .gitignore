@@ -1,3 +1,6 @@
 build.properties
 bin
 catalog-v001.xml
+.build
+.build/*
+/.build/

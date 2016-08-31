@@ -34,7 +34,7 @@ local:agentHasContributionConfig a :ObjectPropertyDisplayConfig ;
     :displayName "contributed to"^^xsd:string ;
     :propertyGroup <http://ld4l.org/ontology#vitroPropertyGroupagentContributions> ;
     :listViewConfigFile "listViewConfig-agentHasContribution.xml"^^xsd:string ;
-    # vitro:customEntryFormAnnot "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.AgentHasContributionGenerator"^^xsd:string ;
+     vitro:customEntryFormAnnot "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.AgentHasContributionGenerator"^^xsd:string ;
     vitro:displayRankAnnot "0"^^xsd:int ; 
     vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
     vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
