@@ -21,11 +21,9 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTw
 public class ChildVClassesWithParentCustomLabels extends ChildVClassesWithParent   {
 
     private static final String LEFT_BLANK = "";
-    private String removeLabel = ""; //remove this line from the label
     private Collator collator = null;
-    public ChildVClassesWithParentCustomLabels(String classUri, String removeLabel, Collator collator) throws Exception {
+    public ChildVClassesWithParentCustomLabels(String classUri,  Collator collator) throws Exception {
         super(classUri);
-        this.removeLabel = removeLabel;
         this.collator = collator;
     }
    
@@ -34,29 +32,7 @@ public class ChildVClassesWithParentCustomLabels extends ChildVClassesWithParent
         return this;
     }
     
-    @Override
-    public Map<String, String> getOptions(
-            EditConfigurationVTwo editConfig, 
-            String fieldName, 
-            WebappDaoFactory wDaoFact) throws Exception {
-        
-      Map<String, String> optionsMap = super.getOptions(editConfig, fieldName, wDaoFact);
-      //Remove the "remove label" portion 
-      for(String key: optionsMap.keySet()) {
-    	  String value = optionsMap.get(key);
-    	  if(value.endsWith(removeLabel)) {
-    		  value = value.substring(0, value.lastIndexOf(removeLabel) + 1).trim();
-    	  }
-    	  //If key is the superclass, replace "Other" with "Contribution"
-    	  if(key.equals("http://bib.ld4l.org/ontology/Contribution"))
-    		  value = "Contribution";
-    	  //Replacing value
-    	  optionsMap.put(key, value);
-      }
-      
-      return optionsMap;
-    }
-    
+   
     public Comparator<String[]> getCustomComparator() {
     	return new SuperClassAndChildrenComparator(collator, this.classUri);
     }

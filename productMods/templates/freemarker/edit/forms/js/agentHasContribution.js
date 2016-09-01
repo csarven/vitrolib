@@ -33,7 +33,7 @@ var agentHasContributionUtils = {
         this.form.submit(function(event) {
             //populate the contribution Label field
         	contributionLabel = $("select[name='contributionType'] option:selected").text();
-        	agentHasContributionUtils.contributionLabel.val(contributionLabel + " Contribution");
+        	agentHasContributionUtils.contributionLabel.val(contributionLabel);
         });            
     }
 } 

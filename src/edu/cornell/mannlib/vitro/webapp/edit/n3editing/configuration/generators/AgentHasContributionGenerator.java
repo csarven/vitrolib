@@ -55,20 +55,21 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         conf.addNewResource("contribution", DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource("work",DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource("title", DEFAULT_NS_FOR_NEW_RESOURCE);
-        
+        conf.addNewResource("titleElement", DEFAULT_NS_FOR_NEW_RESOURCE);
+
         // uris in scope: none   
         // literals in scope: none
         
         // Should include contribution type, but ignoring for now
         //There could be an existing WORK URI but would need to create new contribution URI for that
         //
-        conf.setUrisOnform( Arrays.asList( "existingWork", "contributionType"));  
+        conf.setUrisOnform( Arrays.asList( "work", "contributionType", "contribution"));  
         conf.setLiteralsOnForm( Arrays.asList("contributionLabel",  "workLabel"));
 
         conf.addSparqlForExistingLiteral("contributionLabel", contributionLabelQuery);
         conf.addSparqlForExistingLiteral("workLabel", workLabelQuery);
         //always a new contribution even for existing work
-        conf.addSparqlForExistingUris("existingWork", existingWorkQuery);
+        conf.addSparqlForExistingUris("work", existingWorkQuery);
        //I don't think we need an existing title, do we ?
                 
         //Add fields
@@ -82,7 +83,7 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         conf.addField( new FieldVTwo().                        
                 setName("contributionType").
                 setValidators( list("nonempty") ).
-                setOptions( new ChildVClassesWithParentCustomLabels(contributionClass, " contribution", vreq.getCollator()))
+                setOptions( new ChildVClassesWithParentCustomLabels(contributionClass, vreq.getCollator()))
                 );
         // Future: select field for contribution type
 
@@ -105,6 +106,7 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         "?agent   ld4l:isAgentOf ?contribution .\n" +
         "?contribution prov:agent ?agent .\n " +
         "?contribution  a ld4l:Contribution .\n" +
+        "?contribution  a ?contributionType .\n" +
         "?contribution rdfs:label ?contributionLabel . \n" ;
 
     //Work and contribution relationships that will always be created
@@ -126,10 +128,19 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         "@prefix ld4l: <"+ ld4l +"> .\n" +
         "@prefix rdfs: <"+ rdfs +">  . \n"+
         "@prefix madsrdf: <" + madsrdf +">  . \n"+
+        "@prefix dcterms: <http://purl.org/dc/terms/> . \n" +
         "?work ld4l:hasTitle ?title . \n" +
         "?title a madsrdf:Title . \n" +
         "?title ld4l:isTitleOf ?work . \n" +
-        "?title rdfs:label ?workLabel . "; //use the same variable since these will always be the same
+        "?title rdfs:label ?workLabel . \n" +
+        "?title dcterms:hasPart ?titleElement . \n" +  
+    	"?titleElement a madsrdf:MainTitleElement. \n" +
+    	"?titleElement rdfs:label ?workLabel. \n" + 
+    	"?titleElement dcterms:isPartOf ?title. \n"; 
+
+    
+    
+    //use the same variable since these will always be the same
     //No "existing" contributions
     /*
     final static String n3ForExistingContribution =    
