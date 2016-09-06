@@ -8,6 +8,7 @@
 </#if>
 <#assign requiredHint = "<span class='requiredHint'> *</span>" />
 <#assign contributionTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "contributionType") />
+<#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType") />
 
 
 <#--If edit submission exists, then retrieve validation errors if they exist-->
@@ -49,35 +50,74 @@
     
     
 
-<section id="agentHasContribution" role="region">        
+<section id="workHasContributor" role="region">        
     
-    <form id="agentHasContributionForm" class="customForm noIE67" action="${submitUrl}"  role="add/edit phone">
+    <form id="workHasContributorForm" class="customForm noIE67" action="${submitUrl}"  role="add/edit phone">
 
-        <p>
-            <label for="workLabel">${i18n().work_label} ${requiredHint}</label>
-            <input  size="25"  type="text" id="workLabel" name="workLabel" value="" />
-        </p>
+
         
         <p class="inline">    
-      <label for="contributionType">${i18n().contributior_role}<#if editMode != "edit"> ${requiredHint}<#else>:</#if></label>
+      <label for="contributionType">${i18n().contributor_role}<#if editMode != "edit"> ${requiredHint}<#else>:</#if></label>
       <#assign contributorRoleOpts = editConfiguration.pageData.contributorRole />
       <#if editMode == "edit">
         <#list contributorRoleOpts?keys as key>             
-            <#if contributorRoleValue = key >
-                <span class="readOnly">${contributionRoleOpts[key]}</span>
+            <#if contributorTypeValue = key >
+                <span class="readOnly">${contributorRoleOpts[key]}</span>
                 <input type="hidden" id="typeSelectorInput" name="contributionType"  value="${contributorRoleValue}" >
             </#if>
         </#list>
       <#else>
         <select id="selector" name="contributionType"  ${disabledVal} >
             <option value="" selected="selected">${i18n().select_one}</option>                
-            <#list contributionTypeOpts?keys as key>             
-                <option value="${key}"  <#if contributionTypeValue = key>selected</#if>>${contributionTypeOpts[key]}</option>            
+            <#list contributorRoleOpts?keys as key>             
+                <option value="${key}"  <#if contributionTypeValue = key>selected</#if>>${contributorRoleOpts[key]}</option>            
             </#list>
         </select>
       </#if>
       <input type="hidden" id="contributionLabel" name="contributionLabel" />
+      
+      
     </p>
+    
+      <p class="inline">    
+      <label for="agentType">${i18n().agent_type}<#if editMode != "edit"> ${requiredHint}<#else>:</#if></label>
+      <#assign agentTypeOpts = editConfiguration.pageData.agentType />
+      <#if editMode == "edit">
+        <#list agentTypeOpts?keys as key>             
+            <#if agentTypeValue = key >
+                <span class="readOnly">${agentTypeOpts[key]}</span>
+                <input type="hidden" id="agentTypeSelectorInput" name="agentType"  value="${agentTypeValue}" >
+            </#if>
+        </#list>
+      <#else>
+        <select id="selector" name="agentType"  ${disabledVal} >
+            <option value="" selected="selected">${i18n().select_one}</option>                
+            <#list agentTypeOpts?keys as key>             
+                <option value="${key}"  <#if agentTypeValue = key>selected</#if>>${agentTypeOpts[key]}</option>            
+            </#list>
+        </select>
+      </#if>
+            
+    </p>
+    <!--Autocomplete for agent-->
+    
+    		<p>
+		            <label for="relatedIndLabel">${i18n().concept_capitalized} <span class='requiredHint'> *</span></label>
+		            <input class="acSelector" size="50"  type="text" id="relatedIndLabel" acGroupName="agent" name="agentName" value="" />
+		        </p>
+		
+		        <div class="acSelection" acGroupName="agent">
+		            <p class="inline">
+		                <label>${i18n().selected_agent}:</label>
+		                <span class="acSelectionInfo"></span>
+                        <a href="" class="verifyMatch"  title="${i18n().verify_match_capitalized}">(${i18n().verify_match_capitalized}</a> ${i18n().or} 
+                        <a href="#" class="changeSelection" id="changeSelection" title="${i18n().change_selection}">${i18n().change_selection})</a>
+		            </p>
+		            <input class="acUriReceiver" type="hidden" id="agent" name="agent" value="" ${flagClearLabelForExisting}="true"/>
+        </div>
+
+    <br />
+    
 
         <input type="hidden" id="editKey" name="editKey" value="${editKey}"/>
 
@@ -91,6 +131,28 @@
     </form>
 
 </section>
+
+
+<#assign sparqlQueryUrl = "${urls.base}/ajax/sparqlQuery" >
+
+    <script type="text/javascript">
+    var customFormData  = {
+        sparqlForAcFilter: '${sparqlForAcFilter}',
+        sparqlQueryUrl: '${sparqlQueryUrl}',
+        acUrl: '${urls.base}/autocomplete?tokenize=true',
+        acTypes: {agent: 'http://www.w3.org/2004/02/skos/core#Concept'},
+        editMode: 'add',
+        typeName: 'Agent',
+        defaultTypeName: 'agent', // used in repair mode to generate button text
+        baseHref: '${urls.base}/individual?uri=',
+        flagClearLabelForExisting: '${flagClearLabelForExisting}'
+    };
+    var i18nStrings = {
+        selectAnExisting: '${i18n().select_an_existing}',
+        orCreateNewOne: '${i18n().or_create_new_one}',
+        selectedString: '${i18n().selected}'
+    };
+    </script>
  
 ${stylesheets.add('<link rel="stylesheet" href="${urls.base}/js/jquery-ui/css/smoothness/jquery-ui-1.8.9.custom.css" />')}
 ${stylesheets.add('<link rel="stylesheet" href="${urls.base}/templates/freemarker/edit/forms/css/customForm.css" />')}

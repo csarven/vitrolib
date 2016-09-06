@@ -31,7 +31,7 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
     final static String madsrdf = "http://www.loc.gov/mads/rdf/v1#";
     final static String prov = "http://www.w3.org/ns/prov#";
     final static String rdfs = "http://www.w3.org/2000/01/rdf-schema#";
-    
+    final static String foaf = "http://xmlns.com/foaf/0.1/";
     final static String contributionClass = ld4l + "Contribution";
     @Override
     public EditConfigurationVTwo getEditConfiguration(VitroRequest vreq,
@@ -72,9 +72,7 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
        //I don't think we need an existing title, do we ?
                 
         //Add fields
-        conf.addField( new FieldVTwo().
-                setName("workLabel").
-                setRangeDatatypeUri(XSD.xstring.toString() ));
+       
         conf.addField( new FieldVTwo().
                 setName("contributionLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() )); //This should be a hidden field, based on type selected from drop-down
@@ -83,6 +81,19 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
                 setName("contributionType").
                 setValidators( list("nonempty") ).
                 setOptions( new ChildVClassesWithParentCustomLabels(contributionClass, vreq.getCollator()))
+                );
+        //Agent URI
+        conf.addField( new FieldVTwo().                        
+                setName("agent").
+                setValidators( list("nonempty") )
+                );
+        //Agent name
+        conf.addField( new FieldVTwo().                        
+                setName("agentName")
+                );
+        //Agent type
+        conf.addField( new FieldVTwo().                        
+                setName("agentType")
                 );
         // Future: select field for contribution type
 
@@ -101,9 +112,6 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
     final static String n3ForContribution =       
         "@prefix ld4l: <"+ ld4l +"> .\n" +
         "@prefix rdfs: <"+ rdfs +">  . \n"+
-        "@prefix prov: <"+ prov +">  . \n"+
-        "?contribution ld4l:contributedTo ?work .\n " +
-        "?contribution prov:agent ?agent .\n " +
         "?contribution  a ld4l:Contribution .\n" +
         "?contribution  a ?contributionType .\n" +
         "?contribution rdfs:label ?contributionLabel . \n" ;
@@ -113,34 +121,26 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
     final static String n3ForWorkToContribution  =      
         "@prefix ld4l: <"+ ld4l +"> .\n" +
         "@prefix rdfs: <"+ rdfs +">  . \n"+
-        "?work ld4l:hasContribution ?contribution . \n";
+        "?work ld4l:hasContribution ?contribution . \n" + 
+        "?contribution ld4l:contributedTo ?work .\n " ;
     
     final static String n3ForContributionToAgent  =      
             "@prefix ld4l: <"+ ld4l +"> .\n" +
             "@prefix rdfs: <"+ rdfs +">  . \n"+
-            "?contribution ld4l:contributedTo ?work . \n" +
-            "?work ld4l:hasContribution ?contribution . \n";
+            "@prefix prov: <"+ prov +">  . \n"+
+            "?contribution prov:agent ?agent .\n " +
+            "?agent ld4l:isAgentOf ?contribution .\n ";
     
     //If new work is being created
     final static String n3ForNewAgent =
 	   "@prefix ld4l: <"+ ld4l +"> .\n" +
         "@prefix rdfs: <"+ rdfs +">  . \n"+
-        "?work a ld4l:Work . \n" +
-        "?work rdfs:label ?workLabel . ";
+        "@prefix foaf:<" + foaf + "> . \n" +  
+        "?agent a ?agentType. \n" +
+        "?agent rdfs:label  ?agentName. \n" +
+        "?agent foaf:name ?agentName .";
     
-    final static String n3ForNewTitle  =      
-        "@prefix ld4l: <"+ ld4l +"> .\n" +
-        "@prefix rdfs: <"+ rdfs +">  . \n"+
-        "@prefix madsrdf: <" + madsrdf +">  . \n"+
-        "@prefix dcterms: <http://purl.org/dc/terms/> . \n" +
-        "?work ld4l:hasTitle ?title . \n" +
-        "?title a madsrdf:Title . \n" +
-        "?title ld4l:isTitleOf ?work . \n" +
-        "?title rdfs:label ?workLabel . \n" +
-        "?title dcterms:hasPart ?titleElement . \n" +  
-    	"?titleElement a madsrdf:MainTitleElement. \n" +
-    	"?titleElement rdfs:label ?workLabel. \n" + 
-    	"?titleElement dcterms:isPartOf ?title. \n"; 
+    
 
     
     
