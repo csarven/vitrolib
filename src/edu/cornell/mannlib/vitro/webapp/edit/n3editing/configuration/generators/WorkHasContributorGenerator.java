@@ -13,6 +13,8 @@ import org.apache.commons.logging.LogFactory;
 import com.hp.hpl.jena.vocabulary.XSD;
 
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
+import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParent;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParentCustomLabels;
@@ -67,6 +69,9 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
 
         conf.addSparqlForExistingLiteral("contributionLabel", contributionLabelQuery);
         conf.addSparqlForExistingUris("contribution", existingContributionQuery);
+        conf.addSparqlForExistingUris("agent", existingAgentQuery);
+        conf.addSparqlForExistingUris("agentType", existingAgentTypeQuery);
+        
         //conf.addSparqlForExistingUris("contributorRoleType", existingContributorRoleTypeQuery);
 
        //I don't think we need an existing title, do we ?
@@ -93,7 +98,8 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
                 );
         //Agent type
         conf.addField( new FieldVTwo().                        
-                setName("agentType")
+                setName("agentType").
+                setOptions(new ChildVClassesWithParent(foaf + "Agent"))
                 );
         // Future: select field for contribution type
 
@@ -140,56 +146,20 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
         "?agent rdfs:label  ?agentName. \n" +
         "?agent foaf:name ?agentName .";
     
-    
 
-    
-    
-    //use the same variable since these will always be the same
-    //No "existing" contributions
-    /*
-    final static String n3ForExistingContribution =    
-        "@prefix ld4l: <"+ ld4l +"> .\n" +
-        "@prefix prov: <"+ prov +"> .\n" +
-        "?agent ld4l:isAgentOf ?existingContribution . \n" +
-        "?existingContribution prov:agent ?agent . \n" +
-        " ";
-    
-    */
-    final static String n3ForExistingWork =  
-        "@prefix ld4l: <"+ ld4l +"> .\n" +
-        "?contribution ld4l:contributedTo ?existingWork . \n" +
-        "?existingWork ld4l:hasContribution ?contribution . \n" +
-        " ";
-    //Don't need this because title would already exist
-    /*
-    final static String n3ForExistingTitle =      
-        "@prefix ld4l: <"+ ld4l +"> .\n" +
-        "@prefix madsrdf: <" + madsrdf +">  . \n"+
-        "?work madsrdf:hasTitle ?existingTitle . \n" +
-        "?existingTitle ld4l:isTitleOf ?work . \n" +
-        " ";
-   */ 
     final static String contributionLabelAssertion  =      
         "@prefix rdfs: <"+ rdfs +">  . \n"+
         "?contribution rdfs:label ?contributionLabel" +
         " ";                
     
-    final static String workLabelAssertion  =      
-        "@prefix rdfs: <"+ rdfs +">  . \n"+
-        "?work rdfs:label ?workLabel" +
-        " ";              
-
-    final static String titleLabelAssertion  =      
-        "@prefix rdfs: <"+ rdfs +">  . \n"+
-        "?title rdfs:label ?titleLabel" +
-        " ";   
+            
     
     /* Queries for editing an existing work contribution */
 
     final static String existingContributionQuery =    
         "PREFIX ld4l: <" + ld4l +">\n" +
         "SELECT ?existingContribution WHERE {\n"+
-        "?agent ld4l:isAgentOf ?existingContribution .\n" +
+        "?work ld4l:hasContribution ?existingContribution .\n" +
         "?existingContribution a ld4l:Contribution .\n" +
         " }";                
 
@@ -197,49 +167,35 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
         "PREFIX rdfs: <"+ rdfs +">   \n"+
         "PREFIX ld4l: <" + ld4l +">\n" +
         "SELECT ?existingContribution WHERE {\n"+
-        "?agent ld4l:isAgentOf ?existingContribution .\n" +
+        "?work ld4l:hasContribution ?existingContribution .\n" +
         "?existingContribution a ld4l:Contribution .\n" +
         "?existingContribution rdfs:label ?existingContributionLabel .\n" +
         " }";   
     
-    final static String existingWorkQuery  =      
+    final static String existingAgentQuery  =      
         "PREFIX ld4l: <"+ ld4l +">\n" +
-        "SELECT ?existingWork WHERE {\n"+
-        "?contribution ld4l:contributedTo ?existingWork .\n" +
-        "?existingWork a ld4l:Work .\n" +
+        "PREFIX prov: <" + prov + "> \n" + 
+        "SELECT ?existingAgent WHERE {\n"+
+        "?work ld4l:hasContribution ?existingContribution .\n" +
+        "?existingContribution prov:agent ?agent ." + 
         " }";    
 
-    final static String workLabelQuery  =      
-        "PREFIX ld4l: <"+ ld4l +">\n" +
-        "PREFIX rdfs: <"+ rdfs + ">\n" +
-        "SELECT ?existingWork WHERE {\n"+
-        "?contribution ld4l:contributedTo ?existingWork .\n" +
-        "?existingWork a ld4l:Work .\n" +
-        "?existingWork rdfs:label ?existingWorkLabel . \n" +
-        " }";  
-    
-    final static String existingTitleQuery  =      
-        "PREFIX ld4l: <"+ ld4l +">\n" +
-        "PREFIX madsrdf: <" + madsrdf + ">\n" +
-        "SELECT ?existingTitle WHERE {\n"+
-        "?work madsrdf:hasTitle ?existingTitle .\n" +
-        "?existingTitle a madsrdf:Title .\n" +
-        " }";    
-
-    final static String titleLabelQuery  =      
-        "PREFIX ld4l: <"+ ld4l +">\n" +
-        "PREFIX rdfs: <"+ rdfs +">\n" +
-        "PREFIX madsrdf: <" + madsrdf + ">\n" +
-        "SELECT ?existingTitle WHERE {\n"+
-        "?work madsrdf:hasTitle ?existingTitle .\n" +
-        "?existingTitle a madsrdf:Title .\n" +
-        "?existingtitle rdfs:label ?existingTitleLabel . \n" +
-        " }";    
+    final static String existingAgentTypeQuery  =      
+            "PREFIX ld4l: <"+ ld4l +">\n" +
+            "PREFIX prov: <" + prov + "> \n" + 
+            "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
+            "SELECT ?existingAgentType WHERE {\n"+
+            "?work ld4l:hasContribution ?existingContribution .\n" +
+            "?existingContribution prov:agent ?agent ." + 
+            "?existingContribution vitro:mostSpecificType ?agentType . " + 
+            " }";    
     
     // Adding form specific data such as edit mode
     public void addFormSpecificData(EditConfigurationVTwo editConfiguration, VitroRequest vreq) {
         HashMap<String, Object> formSpecificData = new HashMap<String, Object>();
         formSpecificData.put("editMode", getEditMode(vreq).name().toLowerCase());
+		formSpecificData.put("sparqlForAcFilter", getSparqlForAcFilter(vreq));
+
         editConfiguration.setFormSpecificData(formSpecificData);
     }
     
@@ -248,4 +204,13 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
         predicates.add(ld4l + "isAgentOf");
         return EditModeUtils.getEditMode(vreq, predicates);
     }
+    
+	public String getSparqlForAcFilter(VitroRequest vreq) {
+		String subject = EditConfigurationUtils.getSubjectUri(vreq);			
+		String query = "SELECT ?agent WHERE { " + 
+			"<" + subject + "> ld4l:hasContribution ?contribution ." + 
+				"?contribution prov:agent ?agent ." + 
+			"?agent  <" + VitroVocabulary.RDF_TYPE + "> <" + foaf + "Agent> . }";
+		return query;
+	}
 }

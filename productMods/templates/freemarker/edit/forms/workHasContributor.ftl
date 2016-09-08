@@ -9,7 +9,8 @@
 <#assign requiredHint = "<span class='requiredHint'> *</span>" />
 <#assign contributionTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "contributionType") />
 <#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType") />
-
+<#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
+<#assign sparqlForAcFilter = editConfiguration.pageData.sparqlForAcFilter />
 
 <#--If edit submission exists, then retrieve validation errors if they exist-->
 <#if editSubmission?has_content && editSubmission.submissionExists = true && editSubmission.validationErrors?has_content>
@@ -58,12 +59,12 @@
         
         <p class="inline">    
       <label for="contributionType">${i18n().contributor_role}<#if editMode != "edit"> ${requiredHint}<#else>:</#if></label>
-      <#assign contributorRoleOpts = editConfiguration.pageData.contributorRole />
+      <#assign contributorRoleOpts = editConfiguration.pageData.contributionType />
       <#if editMode == "edit">
         <#list contributorRoleOpts?keys as key>             
-            <#if contributorTypeValue = key >
+            <#if contributionTypeValue = key >
                 <span class="readOnly">${contributorRoleOpts[key]}</span>
-                <input type="hidden" id="typeSelectorInput" name="contributionType"  value="${contributorRoleValue}" >
+                <input type="hidden" id="typeSelectorInput" name="contributionType"  value="${contributionTypeValue}" >
             </#if>
         </#list>
       <#else>
@@ -102,7 +103,7 @@
     <!--Autocomplete for agent-->
     
     		<p>
-		            <label for="relatedIndLabel">${i18n().concept_capitalized} <span class='requiredHint'> *</span></label>
+		            <label for="relatedIndLabel">${i18n().agent_capitalized} <span class='requiredHint'> *</span></label>
 		            <input class="acSelector" size="50"  type="text" id="relatedIndLabel" acGroupName="agent" name="agentName" value="" />
 		        </p>
 		
@@ -140,7 +141,7 @@
         sparqlForAcFilter: '${sparqlForAcFilter}',
         sparqlQueryUrl: '${sparqlQueryUrl}',
         acUrl: '${urls.base}/autocomplete?tokenize=true',
-        acTypes: {agent: 'http://www.w3.org/2004/02/skos/core#Concept'},
+        acTypes: {agent: 'http://xmlns.com/foaf/0.1/Agent'},
         editMode: 'add',
         typeName: 'Agent',
         defaultTypeName: 'agent', // used in repair mode to generate button text
@@ -163,4 +164,5 @@ ${scripts.add('<script type="text/javascript" src="${urls.base}/js/jquery-ui/js/
              '<script type="text/javascript" src="${urls.base}/js/extensions/String.js"></script>',
              '<script type="text/javascript" src="${urls.base}/js/browserUtils.js"></script>',
              '<script type="text/javascript" src="${urls.base}/js/jquery_plugins/jquery.bgiframe.pack.js"></script>',
-             '<script type="text/javascript" src="${urls.base}/templates/freemarker/edit/forms/js/agentHasContribution.js"></script>')}
+             '<script type="text/javascript" src="${urls.base}/templates/freemarker/edit/forms/js/agentHasContribution.js"></script>',
+             '<script type="text/javascript" src="${urls.base}/templates/freemarker/edit/forms/js/customFormWithAutocomplete.js"></script>')}
