@@ -64,7 +64,7 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
         // Should include contribution type, but ignoring for now
         //There could be an existing WORK URI but would need to create new contribution URI for that
         //
-        conf.setUrisOnform( Arrays.asList( "work", "contributorRoleType", "contribution"));  
+        conf.setUrisOnform( Arrays.asList( "work", "contributionType", "contribution"));  
         conf.setLiteralsOnForm( Arrays.asList("contributionLabel",  "agentName"));
 
         conf.addSparqlForExistingLiteral("contributionLabel", contributionLabelQuery);
@@ -207,7 +207,9 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
     
 	public String getSparqlForAcFilter(VitroRequest vreq) {
 		String subject = EditConfigurationUtils.getSubjectUri(vreq);			
-		String query = "SELECT ?agent WHERE { " + 
+		String query = "PREFIX ld4l:<" + ld4l + "> " + 
+		"PREFIX prov:<" + prov + "> " +   
+		"SELECT ?agent WHERE { " + 
 			"<" + subject + "> ld4l:hasContribution ?contribution ." + 
 				"?contribution prov:agent ?agent ." + 
 			"?agent  <" + VitroVocabulary.RDF_TYPE + "> <" + foaf + "Agent> . }";
