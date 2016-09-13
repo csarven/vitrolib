@@ -47,7 +47,7 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
         
         conf.setTemplate(template);
         
-        conf.setVarNameForSubject("agent");
+        conf.setVarNameForSubject("work");
         conf.setVarNameForPredicate("predicate");
         conf.setVarNameForObject("contribution");
                 
