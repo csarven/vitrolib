@@ -64,13 +64,15 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
         // Should include contribution type, but ignoring for now
         //There could be an existing WORK URI but would need to create new contribution URI for that
         //
-        conf.setUrisOnform( Arrays.asList( "work", "contributionType", "contribution"));  
+        conf.setUrisOnform( Arrays.asList( "work", "contributionType", "contribution", "agentType", "agent"));  
         conf.setLiteralsOnForm( Arrays.asList("contributionLabel",  "agentName"));
 
         conf.addSparqlForExistingLiteral("contributionLabel", contributionLabelQuery);
         conf.addSparqlForExistingUris("contribution", existingContributionQuery);
+        conf.addSparqlForExistingUris("contributionType", existingContributionTypeQuery);
         conf.addSparqlForExistingUris("agent", existingAgentQuery);
         conf.addSparqlForExistingUris("agentType", existingAgentTypeQuery);
+        conf.addSparqlForExistingLiteral("agentName", existingAgentNameQuery);
         
         //conf.addSparqlForExistingUris("contributorRoleType", existingContributorRoleTypeQuery);
 
@@ -166,18 +168,25 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
     final static String contributionLabelQuery  =      
         "PREFIX rdfs: <"+ rdfs +">   \n"+
         "PREFIX ld4l: <" + ld4l +">\n" +
-        "SELECT ?existingContribution WHERE {\n"+
+        "SELECT ?existingContributionLabel WHERE {\n"+
         "?work ld4l:hasContribution ?existingContribution .\n" +
         "?existingContribution a ld4l:Contribution .\n" +
         "?existingContribution rdfs:label ?existingContributionLabel .\n" +
-        " }";   
+        " }";  
+    final static String existingContributionTypeQuery =    
+            "PREFIX ld4l: <" + ld4l +">\n" +
+            "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
+            "SELECT ?existingContributionType WHERE {\n"+
+            "?work ld4l:hasContribution ?existingContribution .\n" +
+            "?existingContribution vitro:mostSpecificType ?existingContributionType .\n" +
+            " }"; 
     
     final static String existingAgentQuery  =      
         "PREFIX ld4l: <"+ ld4l +">\n" +
         "PREFIX prov: <" + prov + "> \n" + 
         "SELECT ?existingAgent WHERE {\n"+
         "?work ld4l:hasContribution ?existingContribution .\n" +
-        "?existingContribution prov:agent ?agent ." + 
+        "?existingContribution prov:agent ?existingAgent ." + 
         " }";    
 
     final static String existingAgentTypeQuery  =      
@@ -187,8 +196,19 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
             "SELECT ?existingAgentType WHERE {\n"+
             "?work ld4l:hasContribution ?existingContribution .\n" +
             "?existingContribution prov:agent ?agent ." + 
-            "?existingContribution vitro:mostSpecificType ?agentType . " + 
-            " }";    
+            "?agent vitro:mostSpecificType ?existingAgentType . " + 
+            " }";  
+    
+    final static String existingAgentNameQuery  =      
+            "PREFIX ld4l: <"+ ld4l +">\n" +
+            "PREFIX prov: <" + prov + "> \n" + 
+            "PREFIX rdfs: <"+ rdfs +">   \n"+
+            "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
+            "SELECT ?existingAgentName WHERE {\n"+
+            "?work ld4l:hasContribution ?existingContribution .\n" +
+            "?existingContribution prov:agent ?agent ." + 
+            "?agent rdfs:label ?existingAgentName . " + 
+            " }"; 
     
     // Adding form specific data such as edit mode
     public void addFormSpecificData(EditConfigurationVTwo editConfiguration, VitroRequest vreq) {
