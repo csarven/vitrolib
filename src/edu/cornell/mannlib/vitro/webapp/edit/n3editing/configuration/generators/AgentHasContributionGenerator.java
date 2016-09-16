@@ -58,7 +58,7 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         conf.addNewResource("titleElement", DEFAULT_NS_FOR_NEW_RESOURCE);
 
         // uris in scope: none   
-        // literals in scope: none
+        // literals in scope: nonez
         
         // Should include contribution type, but ignoring for now
         //There could be an existing WORK URI but would need to create new contribution URI for that
@@ -66,13 +66,19 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         conf.setUrisOnform( Arrays.asList( "work", "contributionType", "contribution"));  
         conf.setLiteralsOnForm( Arrays.asList("contributionLabel",  "workLabel"));
 
-        conf.addSparqlForExistingLiteral("contributionLabel", contributionLabelQuery);
         conf.addSparqlForExistingLiteral("workLabel", workLabelQuery);
         //always a new contribution even for existing work
         conf.addSparqlForExistingUris("work", existingWorkQuery);
+        conf.addSparqlForExistingUris("contribution", existingContributionQuery);
+        conf.addSparqlForExistingUris("contributionType", existingContributionTypeQuery);
+
        //I don't think we need an existing title, do we ?
                 
         //Add fields
+        conf.addField( new FieldVTwo().
+                setName("contribution"));
+        conf.addField( new FieldVTwo().
+                setName("work")); //Assuming have to do this because we may be editing a field and will need  this value
         conf.addField( new FieldVTwo().
                 setName("workLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() ));
@@ -189,31 +195,34 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         "?existingContribution a ld4l:Contribution .\n" +
         " }";                
 
-    final static String contributionLabelQuery  =      
+    final static String existingContributionTypeQuery  =      
         "PREFIX rdfs: <"+ rdfs +">   \n"+
         "PREFIX ld4l: <" + ld4l +">\n" +
-        "SELECT ?existingContribution WHERE {\n"+
+        "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
+        "SELECT ?existingContributionType WHERE {\n"+
         "?agent ld4l:isAgentOf ?existingContribution .\n" +
         "?existingContribution a ld4l:Contribution .\n" +
-        "?existingContribution rdfs:label ?existingContributionLabel .\n" +
+        "?existingContribution vitro:mostSpecificType ?existingContributionType .\n" +
         " }";   
     
     final static String existingWorkQuery  =      
         "PREFIX ld4l: <"+ ld4l +">\n" +
         "SELECT ?existingWork WHERE {\n"+
-        "?contribution ld4l:contributedTo ?existingWork .\n" +
+        "?agent ld4l:isAgentOf ?existingContribution .\n" +
+        "?existingContribution ld4l:contributedTo ?existingWork .\n" +
         "?existingWork a ld4l:Work .\n" +
         " }";    
 
     final static String workLabelQuery  =      
-        "PREFIX ld4l: <"+ ld4l +">\n" +
-        "PREFIX rdfs: <"+ rdfs + ">\n" +
+    	"PREFIX ld4l: <"+ ld4l +">\n" +
         "SELECT ?existingWork WHERE {\n"+
-        "?contribution ld4l:contributedTo ?existingWork .\n" +
-        "?existingWork a ld4l:Work .\n" +
+        "?agent ld4l:isAgentOf ?existingContribution .\n" +
+        "?existingContribution ld4l:contributedTo ?existingWork .\n" +
+        "?existingWork a ld4l:Work .\n" +		
         "?existingWork rdfs:label ?existingWorkLabel . \n" +
         " }";  
     
+    /*
     final static String existingTitleQuery  =      
         "PREFIX ld4l: <"+ ld4l +">\n" +
         "PREFIX madsrdf: <" + madsrdf + ">\n" +
@@ -230,7 +239,7 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         "?work madsrdf:hasTitle ?existingTitle .\n" +
         "?existingTitle a madsrdf:Title .\n" +
         "?existingtitle rdfs:label ?existingTitleLabel . \n" +
-        " }";    
+        " }";    */
     
     // Adding form specific data such as edit mode
     public void addFormSpecificData(EditConfigurationVTwo editConfiguration, VitroRequest vreq) {

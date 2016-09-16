@@ -8,6 +8,7 @@
 </#if>
 <#assign requiredHint = "<span class='requiredHint'> *</span>" />
 <#assign contributionTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "contributionType") />
+<#assign workLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "workLabel") />
 
 
 <#--If edit submission exists, then retrieve validation errors if they exist-->
@@ -55,28 +56,20 @@
 
         <p>
             <label for="workLabel">${i18n().work_label} ${requiredHint}</label>
-            <input  size="25"  type="text" id="workLabel" name="workLabel" value="" />
+            <input  size="25"  type="text" id="workLabel" name="workLabel" value="${workLabelValue}" />
         </p>
         
         <p class="inline">    
       <label for="contributionType">${i18n().contribution_type}<#if editMode != "edit"> ${requiredHint}<#else>:</#if></label>
       <#assign contributionTypeOpts = editConfiguration.pageData.contributionType />
-      <#if editMode == "edit">
-        <#list contributionTypeOpts?keys as key>             
-            <#if contributionTypeValue = key >
-                <span class="readOnly">${contributionTypeOpts[key]}</span>
-                <input type="hidden" id="typeSelectorInput" name="contributionType"  value="${contributionTypeValue}" >
-            </#if>
-        </#list>
-      <#else>
+     
         <select id="selector" name="contributionType"  ${disabledVal} >
             <option value="" selected="selected">${i18n().select_one}</option>                
             <#list contributionTypeOpts?keys as key>             
                 <option value="${key}"  <#if contributionTypeValue = key>selected</#if>>${contributionTypeOpts[key]}</option>            
             </#list>
         </select>
-      </#if>
-      <input type="hidden" id="contributionLabel" name="contributionLabel" />
+      <input type="hidden" id="contributionLabel" name="contributionLabel" value = ""/>
     </p>
 
         <input type="hidden" id="editKey" name="editKey" value="${editKey}"/>

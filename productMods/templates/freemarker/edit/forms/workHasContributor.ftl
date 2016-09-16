@@ -9,6 +9,9 @@
 <#assign requiredHint = "<span class='requiredHint'> *</span>" />
 <#assign contributionTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "contributionType") />
 <#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType") />
+<#assign agentNameValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentName") />
+<#assign agentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType") />
+
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 <#assign sparqlForAcFilter = editConfiguration.pageData.sparqlForAcFilter />
 
@@ -60,21 +63,13 @@
         <p class="inline">    
       <label for="contributionType">${i18n().contributor_role}<#if editMode != "edit"> ${requiredHint}<#else>:</#if></label>
       <#assign contributorRoleOpts = editConfiguration.pageData.contributionType />
-      <#if editMode == "edit">
-        <#list contributorRoleOpts?keys as key>             
-            <#if contributionTypeValue = key >
-                <span class="readOnly">${contributorRoleOpts[key]}</span>
-                <input type="hidden" id="typeSelectorInput" name="contributionType"  value="${contributionTypeValue}" >
-            </#if>
-        </#list>
-      <#else>
+ 
         <select id="selector" name="contributionType"  ${disabledVal} >
             <option value="" selected="selected">${i18n().select_one}</option>                
             <#list contributorRoleOpts?keys as key>             
                 <option value="${key}"  <#if contributionTypeValue = key>selected</#if>>${contributorRoleOpts[key]}</option>            
             </#list>
         </select>
-      </#if>
       <input type="hidden" id="contributionLabel" name="contributionLabel" />
       
       
@@ -83,28 +78,21 @@
       <p class="inline">    
       <label for="agentType">${i18n().agent_type}<#if editMode != "edit"> ${requiredHint}<#else>:</#if></label>
       <#assign agentTypeOpts = editConfiguration.pageData.agentType />
-      <#if editMode == "edit">
-        <#list agentTypeOpts?keys as key>             
-            <#if agentTypeValue = key >
-                <span class="readOnly">${agentTypeOpts[key]}</span>
-                <input type="hidden" id="agentTypeSelectorInput" name="agentType"  value="${agentTypeValue}" >
-            </#if>
-        </#list>
-      <#else>
+      
         <select id="selector" name="agentType"  ${disabledVal} >
             <option value="" selected="selected">${i18n().select_one}</option>                
             <#list agentTypeOpts?keys as key>             
                 <option value="${key}"  <#if agentTypeValue = key>selected</#if>>${agentTypeOpts[key]}</option>            
             </#list>
         </select>
-      </#if>
+      
             
     </p>
     <!--Autocomplete for agent-->
     
     		<p>
 		            <label for="relatedIndLabel">${i18n().agent_capitalized} <span class='requiredHint'> *</span></label>
-		            <input class="acSelector" size="50"  type="text" id="relatedIndLabel" acGroupName="agent" name="agentName" value="" />
+		            <input class="acSelector" size="50"  type="text" id="relatedIndLabel" acGroupName="agent" name="agentName" value="${agentNameValue}" />
 		        </p>
 		
 		        <div class="acSelection" acGroupName="agent">
@@ -114,7 +102,7 @@
                         <a href="" class="verifyMatch"  title="${i18n().verify_match_capitalized}">(${i18n().verify_match_capitalized}</a> ${i18n().or} 
                         <a href="#" class="changeSelection" id="changeSelection" title="${i18n().change_selection}">${i18n().change_selection})</a>
 		            </p>
-		            <input class="acUriReceiver" type="hidden" id="agent" name="agent" value="" ${flagClearLabelForExisting}="true"/>
+		            <input class="acUriReceiver" type="hidden" id="agent" name="agent" value="${agentValue}" ${flagClearLabelForExisting}="true"/>
         </div>
 
     <br />

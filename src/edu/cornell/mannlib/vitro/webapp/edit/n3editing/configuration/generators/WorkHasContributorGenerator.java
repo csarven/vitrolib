@@ -80,6 +80,8 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
                 
         //Add fields
        
+        //Existing contribution relationship will put uri within the field
+        conf.addField(new FieldVTwo().setName("contribution"));
         conf.addField( new FieldVTwo().
                 setName("contributionLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() )); //This should be a hidden field, based on type selected from drop-down
