@@ -19,7 +19,9 @@
 <#if editMode == "edit">        
         <#assign titleVerb="${i18n().edit_capitalized}">        
         <#assign submitButtonText="${i18n().save_changes}">
-        <#assign disabledVal="disabled">
+        <#--  --assign disabledVal="disabled"-->
+        <#assign disabledVal=""/>
+
 <#else>
         <#assign titleVerb="${i18n().create_capitalized}">        
         <#assign submitButtonText="${i18n().create_entry}">

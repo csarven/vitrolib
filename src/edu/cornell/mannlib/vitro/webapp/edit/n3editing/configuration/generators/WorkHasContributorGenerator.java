@@ -216,7 +216,9 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
     public void addFormSpecificData(EditConfigurationVTwo editConfiguration, VitroRequest vreq) {
         HashMap<String, Object> formSpecificData = new HashMap<String, Object>();
         formSpecificData.put("editMode", getEditMode(vreq).name().toLowerCase());
-		formSpecificData.put("sparqlForAcFilter", getSparqlForAcFilter(vreq));
+		//Work could use the same person already in another contribution
+      
+        //formSpecificData.put("sparqlForAcFilter", getSparqlForAcFilter(vreq));
 
         editConfiguration.setFormSpecificData(formSpecificData);
     }

@@ -13,7 +13,7 @@
 <#assign agentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType") />
 
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
-<#assign sparqlForAcFilter = editConfiguration.pageData.sparqlForAcFilter />
+<#--  --assign sparqlForAcFilter = editConfiguration.pageData.sparqlForAcFilter /-->
 
 <#--If edit submission exists, then retrieve validation errors if they exist-->
 <#if editSubmission?has_content && editSubmission.submissionExists = true && editSubmission.validationErrors?has_content>
@@ -23,7 +23,8 @@
 <#if editMode == "edit">        
         <#assign titleVerb="${i18n().edit_capitalized}">        
         <#assign submitButtonText="${i18n().save_changes}">
-        <#assign disabledVal="disabled">
+        <#--  --assign disabledVal="disabled"-->
+        <#assign disabledVal=""/>
 <#else>
         <#assign titleVerb="${i18n().create_capitalized}">        
         <#assign submitButtonText="${i18n().create_entry}">
@@ -125,12 +126,12 @@
 <#assign sparqlQueryUrl = "${urls.base}/ajax/sparqlQuery" >
 
     <script type="text/javascript">
+
     var customFormData  = {
-        sparqlForAcFilter: '${sparqlForAcFilter}',
         sparqlQueryUrl: '${sparqlQueryUrl}',
         acUrl: '${urls.base}/autocomplete?tokenize=true',
         acTypes: {agent: 'http://xmlns.com/foaf/0.1/Agent'},
-        editMode: 'add',
+        editMode: '${editMode}',
         typeName: 'Agent',
         defaultTypeName: 'agent', // used in repair mode to generate button text
         baseHref: '${urls.base}/individual?uri=',
