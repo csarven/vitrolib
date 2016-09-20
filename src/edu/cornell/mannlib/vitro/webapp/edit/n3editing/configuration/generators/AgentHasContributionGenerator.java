@@ -69,7 +69,6 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         conf.addSparqlForExistingLiteral("workLabel", workLabelQuery);
         //always a new contribution even for existing work
         conf.addSparqlForExistingUris("work", existingWorkQuery);
-        conf.addSparqlForExistingUris("contribution", existingContributionQuery);
         conf.addSparqlForExistingUris("contributionType", existingContributionTypeQuery);
 
        //I don't think we need an existing title, do we ?
@@ -188,28 +187,20 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
     
     /* Queries for editing an existing work contribution */
 
-    final static String existingContributionQuery =    
-        "PREFIX ld4l: <" + ld4l +">\n" +
-        "SELECT ?existingContribution WHERE {\n"+
-        "?agent ld4l:isAgentOf ?existingContribution .\n" +
-        "?existingContribution a ld4l:Contribution .\n" +
-        " }";                
+   
 
     final static String existingContributionTypeQuery  =      
         "PREFIX rdfs: <"+ rdfs +">   \n"+
         "PREFIX ld4l: <" + ld4l +">\n" +
         "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
         "SELECT ?existingContributionType WHERE {\n"+
-        "?agent ld4l:isAgentOf ?existingContribution .\n" +
-        "?existingContribution a ld4l:Contribution .\n" +
-        "?existingContribution vitro:mostSpecificType ?existingContributionType .\n" +
+        "?contribution vitro:mostSpecificType ?existingContributionType .\n" +
         " }";   
     
     final static String existingWorkQuery  =      
         "PREFIX ld4l: <"+ ld4l +">\n" +
         "SELECT ?existingWork WHERE {\n"+
-        "?agent ld4l:isAgentOf ?existingContribution .\n" +
-        "?existingContribution ld4l:contributedTo ?existingWork .\n" +
+        "?contribution ld4l:contributedTo ?existingWork .\n" +
         "?existingWork a ld4l:Work .\n" +
         " }";    
 
@@ -217,9 +208,8 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
     	"PREFIX ld4l: <"+ ld4l +">\n" +
     	"PREFIX rdfs: <"+ rdfs +">   \n"+
         "SELECT ?existingWorkLabel WHERE {\n"+
-        "?agent ld4l:isAgentOf ?existingContribution .\n" +
-        "?existingContribution ld4l:contributedTo ?existingWork .\n" +
-        "?existingWork a ld4l:Work .\n" +		
+        "?contribution ld4l:contributedTo ?existingWork .\n" +
+        "?existingWork a ld4l:Work .\n" +
         "?existingWork rdfs:label ?existingWorkLabel . \n" +
         " }";  
     
