@@ -215,7 +215,8 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
 
     final static String workLabelQuery  =      
     	"PREFIX ld4l: <"+ ld4l +">\n" +
-        "SELECT ?existingWork WHERE {\n"+
+    	"PREFIX rdfs: <"+ rdfs +">   \n"+
+        "SELECT ?existingWorkLabel WHERE {\n"+
         "?agent ld4l:isAgentOf ?existingContribution .\n" +
         "?existingContribution ld4l:contributedTo ?existingWork .\n" +
         "?existingWork a ld4l:Work .\n" +		
