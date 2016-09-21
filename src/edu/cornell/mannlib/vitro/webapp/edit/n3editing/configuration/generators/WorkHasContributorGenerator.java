@@ -19,6 +19,7 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTw
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParent;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParentCustomLabels;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.FieldVTwo;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.preprocessors.WorkHasContributionPreprocessor;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
@@ -109,6 +110,7 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
         // Add validator
         conf.addValidator(new AntiXssValidation());
         
+        conf.addModelChangePreprocessor(new WorkHasContributionPreprocessor());
         // Adding additional data, specifically edit mode
         addFormSpecificData(conf, vreq);
         prepare(vreq, conf);
