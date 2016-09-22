@@ -415,6 +415,8 @@ ld4l:hasCirculationStatus
         <http://ld4l.org/ontology#vitroPropertyGroupcirculation> .
 
 ld4l:hasContribution
+    vitro:customEntryFormAnnot 
+        "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.WorkHasContributorGenerator"^^xsd:string ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupcontributors> .
         
@@ -595,10 +597,6 @@ ld4l:recordedIn
 ld4l:reproduces
     vitro:hiddenFromDisplayBelowRoleLevelAnnot
         <http://vitro.mannlib.cornell.edu/ns/vitro/role#nobody> .
-
-ld4l:responsibilityNote
-    vitro:inPropertyGroupAnnot
-        <http://ld4l.org/ontology#vitroPropertyGroupcontributors> .
                                
 ld4l:separatedFrom
     vitro:inPropertyGroupAnnot

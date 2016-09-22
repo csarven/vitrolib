@@ -1453,8 +1453,6 @@
         <rdfs:label xml:lang="en-us">subject</rdfs:label>
         <rdfs:comment xml:lang="en-us">The topic of the described resource.</rdfs:comment>
         <owl:inverseOf rdf:resource="http://bib.ld4l.org/ontology/isSubjectOf"/>
-        <!-- Temporary fix to get dcterms:subject into Work profile page for easy editing -->
-        <rdfs:domain rdf:resource="http://bib.ld4l.org/ontology/Work"/>
     </owl:ObjectProperty>
     
 
@@ -1923,7 +1921,7 @@
     <owl:DatatypeProperty rdf:about="http://bib.ld4l.org/ontology/responsibilityNote">
         <rdfs:label xml:lang="en-us">responsibility note</rdfs:label>
         <rdfs:comment xml:lang="en-us">Statement relating to the identification and/or function of any persons, families, or corporate bodies responsible for the creation of, or contributing to the content of a resource.</rdfs:comment>
-        <rdfs:domain rdf:resource="http://bib.ld4l.org/ontology/Work"/>
+        <rdfs:domain rdf:resource="http://bib.ld4l.org/ontology/Instance"/>
         <rdfs:subPropertyOf rdf:resource="http://bib.ld4l.org/ontology/note"/>
         <rdfs:range rdf:resource="&rdfs;Literal"/>
     </owl:DatatypeProperty>
