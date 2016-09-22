@@ -445,8 +445,9 @@ ld4l:hasHolding
         <http://ld4l.org/ontology#vitroPropertyGroupinstanceItems> .
         
 ld4l:hasInstance
+    vitro:offerCreateNewAnnot "true"^^xsd:boolean ;
     vitro:inPropertyGroupAnnot
-        <http://ld4l.org/ontology#vitroPropertyGroupworkInstances> .
+        <http://ld4l.org/ontology#vitroPropertyGroupworkInstances> .             
  
 ld4l:hasLast
     vitro:inPropertyGroupAnnot
@@ -514,9 +515,10 @@ ld4l:isHoldingFor
         <http://ld4l.org/ontology#vitroPropertyGroupitemInstance> .
 
 ld4l:isInstanceOf
+    vitro:offerCreateNewAnnot "true"^^xsd:boolean ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupinstanceWork> .
-                                                     
+                                                           
 ld4l:isExpressionOf
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGrouprelatedWorks> .
