@@ -11,6 +11,7 @@
 
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix ld4l: <http://bib.ld4l.org/ontology/> .
 @prefix madsrdf: <http://www.loc.gov/mads/rdf/v1#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
@@ -27,6 +28,7 @@
 local:agentHasContribution a :ConfigContext ;
     :hasConfiguration local:agentHasContributionConfig ;
     :configContextFor ld4l:isAgentOf ;
+    :qualifiedByDomain foaf:Agent ;
     :qualifiedBy ld4l:Contribution .
     
 local:agentHasContributionConfig a :ObjectPropertyDisplayConfig ;
@@ -34,7 +36,7 @@ local:agentHasContributionConfig a :ObjectPropertyDisplayConfig ;
     :displayName "contributed to"^^xsd:string ;
     :propertyGroup <http://ld4l.org/ontology#vitroPropertyGroupagentContributions> ;
     :listViewConfigFile "listViewConfig-agentHasContribution.xml"^^xsd:string ;
-     vitro:customEntryFormAnnot "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.AgentHasContributionGenerator"^^xsd:string ;
+    vitro:customEntryFormAnnot "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.AgentHasContributionGenerator"^^xsd:string ;
     vitro:displayRankAnnot "0"^^xsd:int ; 
     vitro:hiddenFromDisplayBelowRoleLevelAnnot role:public ;               
     vitro:hiddenFromPublishBelowRoleLevelAnnot role:public ;
