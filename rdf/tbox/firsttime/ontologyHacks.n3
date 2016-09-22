@@ -15,7 +15,7 @@
 
 # Show this property to editors on Work page even when not populated.
 dcterms:subject
-    rdfs:domain bf:Work .
+    rdfs:domain ld4l:Work .
     
 # Show this property to editors on Agent page even when not populated.
 foaf:name
