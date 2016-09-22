@@ -415,6 +415,7 @@ ld4l:hasCirculationStatus
         <http://ld4l.org/ontology#vitroPropertyGroupcirculation> .
 
 ld4l:hasContribution
+    vitro:offerCreateNewAnnot "true"^^xsd:boolean ;
     vitro:customEntryFormAnnot 
         "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.WorkHasContributorGenerator"^^xsd:string ;
     vitro:inPropertyGroupAnnot
