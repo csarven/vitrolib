@@ -415,7 +415,8 @@ ld4l:hasCirculationStatus
         <http://ld4l.org/ontology#vitroPropertyGroupcirculation> .
 
 ld4l:hasContribution
-    vitro:offerCreateNewAnnot "true"^^xsd:boolean ;
+    vitro:offerCreateNewOptionAnnot "true"^^xsd:boolean ;
+    vitro:selectFromExistingAnnot "false"^^xsd:boolean .             
     vitro:customEntryFormAnnot 
         "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.WorkHasContributorGenerator"^^xsd:string ;
     vitro:inPropertyGroupAnnot
@@ -446,7 +447,7 @@ ld4l:hasHolding
         <http://ld4l.org/ontology#vitroPropertyGroupinstanceItems> .
         
 ld4l:hasInstance
-    vitro:offerCreateNewAnnot "true"^^xsd:boolean ;
+    vitro:offerCreateNewOptionAnnot "true"^^xsd:boolean ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupworkInstances> .             
  
@@ -516,7 +517,7 @@ ld4l:isHoldingFor
         <http://ld4l.org/ontology#vitroPropertyGroupitemInstance> .
 
 ld4l:isInstanceOf
-    vitro:offerCreateNewAnnot "true"^^xsd:boolean ;
+    vitro:offerCreateNewOptionAnnot "true"^^xsd:boolean ;
     vitro:inPropertyGroupAnnot
         <http://ld4l.org/ontology#vitroPropertyGroupinstanceWork> .
                                                            

@@ -10,7 +10,8 @@
 @prefix vitro:   <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
-# Hacks to the ontology for Vitro display.
+# Temporary hacks to the ontology for Vitro display. Not intended as permanent
+# additions to the ontology.
 
 
 # Show this property to editors on Work page even when not populated.
