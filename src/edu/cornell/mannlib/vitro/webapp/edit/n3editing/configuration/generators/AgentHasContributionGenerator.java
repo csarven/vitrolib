@@ -67,6 +67,8 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         conf.setLiteralsOnForm( Arrays.asList("contributionLabel",  "workLabel"));
 
         conf.addSparqlForExistingLiteral("workLabel", workLabelQuery);
+        conf.addSparqlForExistingLiteral("contributionLabel", existingContributionLabelQuery);
+
         //always a new contribution even for existing work
         conf.addSparqlForExistingUris("work", existingWorkQuery);
         conf.addSparqlForExistingUris("contributionType", existingContributionTypeQuery);
@@ -195,7 +197,15 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
         "SELECT ?existingContributionType WHERE {\n"+
         "?contribution vitro:mostSpecificType ?existingContributionType .\n" +
-        " }";   
+        " }"; 
+    
+    final static String existingContributionLabelQuery  =      
+            "PREFIX rdfs: <"+ rdfs +">   \n"+
+            "PREFIX ld4l: <" + ld4l +">\n" +
+            "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
+            "SELECT ?existingContributionLabel WHERE {\n"+
+            "?contribution rdfs:label ?existingContributionLabel .\n" +
+            " }";  
     
     final static String existingWorkQuery  =      
         "PREFIX ld4l: <"+ ld4l +">\n" +
