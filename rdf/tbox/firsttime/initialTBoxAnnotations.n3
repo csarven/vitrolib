@@ -416,7 +416,7 @@ ld4l:hasCirculationStatus
 
 ld4l:hasContribution
     vitro:offerCreateNewOptionAnnot "true"^^xsd:boolean ;
-    vitro:selectFromExistingAnnot "false"^^xsd:boolean .             
+    vitro:selectFromExistingAnnot "false"^^xsd:boolean ;             
     vitro:customEntryFormAnnot 
         "edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.WorkHasContributorGenerator"^^xsd:string ;
     vitro:inPropertyGroupAnnot
