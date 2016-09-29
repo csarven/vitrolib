@@ -10,7 +10,7 @@
 <#assign contributionTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "contributionType") />
 <#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType") />
 <#assign agentNameValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentName") />
-<#assign agentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType") />
+<#assign agentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agent") />
 
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 <#--  --assign sparqlForAcFilter = editConfiguration.pageData.sparqlForAcFilter /-->

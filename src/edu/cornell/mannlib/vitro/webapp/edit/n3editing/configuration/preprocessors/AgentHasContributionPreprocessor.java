@@ -56,8 +56,8 @@ public class AgentHasContributionPreprocessor implements ModelChangePreprocessor
 		Model retractionsToRemove = ModelFactory.createDefaultModel();
 		
 		if(!retractionsModel.isEmpty()) {
-			HashSet<String> additionsAgentURIs = new HashSet<String>();
-			HashSet<String> preserveRetractionsAgentURIs = new HashSet<String>();
+			HashSet<String> additionsWorkURIs = new HashSet<String>();
+			HashSet<String> preserveRetractionsWorkURIs = new HashSet<String>();
 			String queryStr = getSparqlQuery();
 			Query query = null;
 	        QueryExecution qe = null;
@@ -71,7 +71,7 @@ public class AgentHasContributionPreprocessor implements ModelChangePreprocessor
 	            
 	            while( res.hasNext() ){
 	            	QuerySolution qs = res.nextSolution();
-	            	additionsAgentURIs.add(qs.getResource("agent").getURI());
+	            	additionsWorkURIs.add(qs.getResource("work").getURI());
 	            }
 	        } catch(Exception ex) {
 	        	log.error("Exception occurred in querying additions model for agent ", ex);
@@ -89,8 +89,8 @@ public class AgentHasContributionPreprocessor implements ModelChangePreprocessor
 	            	String agentURI = qs.getResource("agent").getURI();
 	            	//if this uri is not in the additoins, then the agent is being removed from the property and we want to ensure
 	            	//that type, rdfs:label, and foaf:name are not added to the retractions
-	            	if(!additionsAgentURIs.contains(agentURI)) {
-	            		preserveRetractionsAgentURIs.add(agentURI);
+	            	if(!additionsWorkURIs.contains(agentURI)) {
+	            		preserveRetractionsWorkURIs.add(agentURI);
 	            	}
 	            }
 	        } catch(Exception ex) {
@@ -98,12 +98,12 @@ public class AgentHasContributionPreprocessor implements ModelChangePreprocessor
 	        }
 	        
 	        //Now, with the agent uris to be preserved
-	        for(String uri: preserveRetractionsAgentURIs) {
-	        	Resource agentURI = ResourceFactory.createResource(uri);
+	        for(String uri: preserveRetractionsWorkURIs) {
+	        	Resource workURI = ResourceFactory.createResource(uri);
 	        	Property foafNameProperty = ResourceFactory.createProperty(foaf + "name");
-	        	retractionsToRemove.add(retractionsModel.listStatements(agentURI, RDF.type, (RDFNode) null));
-	        	retractionsToRemove.add(retractionsModel.listStatements(agentURI, foafNameProperty, (RDFNode) null));
-	        	retractionsToRemove.add(retractionsModel.listStatements(agentURI, RDFS.label, (RDFNode) null));
+	        	retractionsToRemove.add(retractionsModel.listStatements(workURI, RDF.type, (RDFNode) null));
+	        	retractionsToRemove.add(retractionsModel.listStatements(workURI, foafNameProperty, (RDFNode) null));
+	        	retractionsToRemove.add(retractionsModel.listStatements(workURI, RDFS.label, (RDFNode) null));
 
 	        }
 		}
@@ -117,73 +117,6 @@ public class AgentHasContributionPreprocessor implements ModelChangePreprocessor
 		return queryStr;
 	}
 	
-	private void updateModelWithLabel(Model additionsModel) {
-		Model changesModel = ModelFactory.createDefaultModel();
-		String queryStr = getSparqlQuery();
-		Property rdfsLabelP = additionsModel.getProperty(VitroVocabulary.LABEL);
-
-		Query query = null;
-        QueryExecution qe = null;
-
-        additionsModel.getLock().enterCriticalSection(Lock.READ);
-        try {
-            query = QueryFactory.create(queryStr);
-            qe = QueryExecutionFactory.create(
-                    query, additionsModel);
-            ResultSet res = qe.execSelect();
-            while( res.hasNext() ){
-				String newLabel = ""; 
-				Resource subject = null;
-            	QuerySolution qs = res.nextSolution();
-            	subject = qs.getResource("subject");
-            	//Get first and last names, and middle names if they exist
-            	if(qs.getLiteral("firstName") != null && qs.getLiteral("lastName") != null) {
-            		Literal firstNameLiteral = qs.getLiteral("firstName");
-    				Literal lastNameLiteral = qs.getLiteral("lastName");
-    				String firstNameLanguage = firstNameLiteral.getLanguage();
-    				String lastNameLanguage = lastNameLiteral.getLanguage();
-    				newLabel = lastNameLiteral.getString() + ", " + firstNameLiteral.getString();
-    				
-    				if(qs.getLiteral("middleName") != null) {
-    					Literal middleNameLiteral = qs.getLiteral("middleName");
-    					newLabel += " " + middleNameLiteral.getString();
-                	}
-    				
-    				if(subject != null && 
-    						firstNameLanguage != null && lastNameLanguage != null 
-    						&& firstNameLanguage.equals(lastNameLanguage)) {
-    					//create a literal with the appropriate value and the language
-    					Literal labelWithLanguage = changesModel.createLiteral(newLabel, firstNameLanguage);
-    					changesModel.add(subject, rdfsLabelP, labelWithLanguage);
-    				} else {
-    					changesModel.add(subject, rdfsLabelP, newLabel );
-    				}
-            	}
-            	
-            	
-            }
-
-        } catch(Throwable th){
-           log.error("An error occurred in executing query:" + queryStr);
-        } finally {
-            if (qe != null) {
-                qe.close();
-            }
-            additionsModel.getLock().leaveCriticalSection();
-        }
-        
-        //Write changes model to additions model
-        additionsModel.getLock().enterCriticalSection(Lock.WRITE);
-        try {
-        	additionsModel.add(changesModel);
-        }catch(Throwable th){
-            log.error("An error occurred in writing model", th);
-         } finally {
-             
-             additionsModel.getLock().leaveCriticalSection();
-         }
-
-
-	}
+	
 
 }
