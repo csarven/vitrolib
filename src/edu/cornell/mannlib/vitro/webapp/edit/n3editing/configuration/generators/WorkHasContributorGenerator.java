@@ -19,6 +19,7 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTw
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParent;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParentCustomLabels;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.FieldVTwo;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.preprocessors.NewResourcePreprocessor;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.preprocessors.WorkHasContributionPreprocessor;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
@@ -111,6 +112,11 @@ public class WorkHasContributorGenerator extends BaseEditConfigurationGenerator 
         conf.addValidator(new AntiXssValidation());
         
         conf.addModelChangePreprocessor(new WorkHasContributionPreprocessor());
+        //Force these URIs to be minted first in case the form doesn't have a value for them
+        //even in editing mode, i.e. 
+        List<String> forceNewURIs = new ArrayList<String>();
+        forceNewURIs.add("agent");
+        conf.addEditSubmissionPreprocessor(new NewResourcePreprocessor(conf, forceNewURIs));
         // Adding additional data, specifically edit mode
         addFormSpecificData(conf, vreq);
         prepare(vreq, conf);

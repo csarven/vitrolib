@@ -86,11 +86,11 @@ public class AgentHasContributionPreprocessor implements ModelChangePreprocessor
 	            
 	            while( res.hasNext() ){
 	            	QuerySolution qs = res.nextSolution();
-	            	String agentURI = qs.getResource("agent").getURI();
+	            	String workURI = qs.getResource("work").getURI();
 	            	//if this uri is not in the additoins, then the agent is being removed from the property and we want to ensure
 	            	//that type, rdfs:label, and foaf:name are not added to the retractions
-	            	if(!additionsWorkURIs.contains(agentURI)) {
-	            		preserveRetractionsWorkURIs.add(agentURI);
+	            	if(!additionsWorkURIs.contains(workURI)) {
+	            		preserveRetractionsWorkURIs.add(workURI);
 	            	}
 	            }
 	        } catch(Exception ex) {
@@ -112,7 +112,7 @@ public class AgentHasContributionPreprocessor implements ModelChangePreprocessor
 	}
 
 	private String getSparqlQuery() {
-		String queryStr = "SELECT DISTINCT ?agent WHERE {?agent <" + ld4l + "isAgentOf> ?contribution ." + 
+		String queryStr = "SELECT DISTINCT ?work WHERE {?work <" + ld4l + "hasContribution> ?contribution ." + 
 				"}";
 		return queryStr;
 	}

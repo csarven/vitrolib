@@ -17,6 +17,7 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTw
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParent;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParentCustomLabels;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.FieldVTwo;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.preprocessors.AgentHasContributionPreprocessor;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.preprocessors.NewResourcePreprocessor;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
@@ -101,6 +102,7 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         List<String> forceNewURIs = new ArrayList<String>();
         forceNewURIs.add("work");
         conf.addEditSubmissionPreprocessor(new NewResourcePreprocessor(conf, forceNewURIs));
+        conf.addModelChangePreprocessor(new AgentHasContributionPreprocessor());
         // Adding additional data, specifically edit mode
         addFormSpecificData(conf, vreq);
         prepare(vreq, conf);
