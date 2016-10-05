@@ -17,6 +17,8 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTw
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParent;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParentCustomLabels;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.FieldVTwo;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.preprocessors.AgentHasContributionPreprocessor;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.preprocessors.NewResourcePreprocessor;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
@@ -67,6 +69,8 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         conf.setLiteralsOnForm( Arrays.asList("contributionLabel",  "workLabel"));
 
         conf.addSparqlForExistingLiteral("workLabel", workLabelQuery);
+        conf.addSparqlForExistingLiteral("contributionLabel", existingContributionLabelQuery);
+
         //always a new contribution even for existing work
         conf.addSparqlForExistingUris("work", existingWorkQuery);
         conf.addSparqlForExistingUris("contributionType", existingContributionTypeQuery);
@@ -95,6 +99,10 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         // Add validator
         conf.addValidator(new AntiXssValidation());
         
+        List<String> forceNewURIs = new ArrayList<String>();
+        forceNewURIs.add("work");
+        conf.addEditSubmissionPreprocessor(new NewResourcePreprocessor(conf, forceNewURIs));
+        conf.addModelChangePreprocessor(new AgentHasContributionPreprocessor());
         // Adding additional data, specifically edit mode
         addFormSpecificData(conf, vreq);
         prepare(vreq, conf);
@@ -195,7 +203,15 @@ public class AgentHasContributionGenerator extends BaseEditConfigurationGenerato
         "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
         "SELECT ?existingContributionType WHERE {\n"+
         "?contribution vitro:mostSpecificType ?existingContributionType .\n" +
-        " }";   
+        " }"; 
+    
+    final static String existingContributionLabelQuery  =      
+            "PREFIX rdfs: <"+ rdfs +">   \n"+
+            "PREFIX ld4l: <" + ld4l +">\n" +
+            "PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> \n" +
+            "SELECT ?existingContributionLabel WHERE {\n"+
+            "?contribution rdfs:label ?existingContributionLabel .\n" +
+            " }";  
     
     final static String existingWorkQuery  =      
         "PREFIX ld4l: <"+ ld4l +">\n" +
