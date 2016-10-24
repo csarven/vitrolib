@@ -1,6 +1,9 @@
-build.properties
+# Don't store target directories
+**/target/
+
+# Don't store Eclipse artifacts
 bin
-catalog-v001.xml
-.build
-.build/*
-/.build/
+**/.classpath
+**/.project
+**/.settings/
+
